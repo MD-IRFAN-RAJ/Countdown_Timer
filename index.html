@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: url('fantasy-4401089_1280.jpg') center center fixed;
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #07f76b;
+    }
+
+    #stopwatch {
+      font-size: 2em;
+      background-color: #f91c1c;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button {
+      color:rgb(2, 21, 60);
+      
+      margin: 10px;
+      font-size: 1em;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+  </style>
+  <title>Countdown Timer</title>
+</head>
+<body>
+  <div id="stopwatch">10:00</div>
+  <button onclick="startStopwatch()">Start</button>
+  <button onclick="stopStopwatch()">Stop</button>
+  <button onclick="resetStopwatch()">Reset</button>
+  <input type="number" id="setTime" placeholder="Set Time (minutes)">
+  <button onclick="changeTime()">Set</button>
+
+  <script>
+    let timer;
+    let duration = 600; // 10 minutes in seconds
+    let timerDisplay = document.getElementById('stopwatch');
+
+    function startStopwatch() {
+      timer = setInterval(function () {
+        const minutes = Math.floor(duration / 60);
+        const seconds = duration % 60;
+
+        timerDisplay.textContent = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+
+        if (--duration < 0) {
+          stopStopwatch();
+          alert('Time is up!');
+        }
+      }, 1000);
+    }
+
+    function stopStopwatch() {
+      clearInterval(timer);
+    }
+
+    function resetStopwatch() {
+      clearInterval(timer);
+      duration = 600;
+      updateDisplay();
+    }
+
+    function changeTime() {
+      const newTime = parseInt(document.getElementById('setTime').value, 10);
+      if (!isNaN(newTime) && newTime > 0) {
+        duration = newTime * 60;
+        updateDisplay();
+      } else {
+        alert('Please enter a valid positive number for the time.');
+      }
+    }
+
+    function updateDisplay() {
+      const minutes = Math.floor(duration / 60);
+      const seconds = duration % 60;
+      timerDisplay.textContent = (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+    }
+
+    window.onload = function () {
+      updateDisplay();
+    };
+  </script>
+</body>
+</html>
+
